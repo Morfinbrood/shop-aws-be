@@ -1,0 +1,55 @@
+service: product-servicev2
+
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  region: eu-west-1
+
+plugins:
+  - serverless-webpack
+  - serverless-offline
+
+
+custom:
+  webpack:
+    webpackConfig: 'webpack.config.js'
+    includeModules: false 
+    packager: 'npm' 
+    excludeFiles: /*.test.js
+  client:
+    bucketName: product-servicev2
+
+functions:
+  getProductsList :
+    handler: handlers/getProductsList.getProductsList
+    events:
+      - http:
+          path: products
+          method: GET
+          cors: true
+          response:
+            statusCodes:
+              201:
+                pattern: 'OK' # Default response method
+              400:
+                pattern: '.*"statusCode":400.*' # JSON response
+              500:
+                pattern: '.*"statusCode":500.*' # JSON response
+
+  getProductsById:
+    handler: handlers/getProductsById.getProductsById
+    events:
+      - http:
+          method: GET
+          path: products/{id}
+          cors: true
+          response:
+            statusCodes:
+              201:
+                pattern: 'OK' # Default response method
+              400:
+                pattern: '.*"statusCode":400.*' # JSON response
+              500:
+                pattern: '.*"statusCode":500.*' # JSON response
