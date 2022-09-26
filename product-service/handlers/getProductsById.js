@@ -15,7 +15,7 @@ export const getProductsById = async (request, context, callback) => {
                     "Access-Control-Allow-Methods": "GET"
                 },
                 statusCode: 404,
-                body: `can't find product with this id ${request.id}`
+                body: `Product not found`
             }
         }
         return {
