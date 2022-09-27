@@ -1,11 +1,10 @@
 'use strict';
-import data from "../dbData/data.JSON"
+import { getProductDBById } from "../db-service/db-service";
 
 export const getProductsById = async (request, context, callback) => {
     try {
         const targetId = request.pathParameters.id;
-
-        const product = await Promise.resolve(data.find(product => product.id === targetId));
+        const product = await getProductDBById(targetId);
 
         if (!product) {
             return {
@@ -35,7 +34,7 @@ export const getProductsById = async (request, context, callback) => {
                 "Access-Control-Allow-Methods": "GET"
             },
             statusCode: 500,
-            body: JSON.stringify(err)
+            body: JSON.stringify(error)
         }
     }
 };

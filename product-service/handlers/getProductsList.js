@@ -1,10 +1,10 @@
 'use strict';
-import data from "../dbData/data.JSON"
+import { getProductsDB } from "../db-service/db-service";
 
 export const getProductsList = async (request, context, callback) => {
 
     try {
-        const dataListString = data;
+        const dataListString = await getProductsDB();
         return {
             headers: {
                 "Access-Control-Allow-Headers": "Content-Type",
@@ -14,7 +14,6 @@ export const getProductsList = async (request, context, callback) => {
             statusCode: 200,
             body: JSON.stringify(dataListString),
         }
-
     } catch (err) {
         return {
             request: request.body,
