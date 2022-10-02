@@ -1,0 +1,1 @@
+export const getDataFromJSON = async (JSON) => JSON;
